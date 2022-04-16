@@ -1,5 +1,5 @@
 #include "iostream"
-const int JUMLAH_MATKUL = 2;
+const int JUMLAH_MATKUL = 8;
 int n;
 float (*nilai)[JUMLAH_MATKUL];
 std::string *nama;
@@ -95,7 +95,7 @@ void insertionSort()
         }
         ipk[j + 1] = key;
         nim[j + 1] = nimkey;
-        nim[j + 1] = namakey;
+        nama[j + 1] = namakey;
     }
     DisplayRank();
 }
@@ -120,6 +120,7 @@ void inputData(){
         printf("NIM: ");
         std::getline(std::cin, nim[i]);
         printf("Silahkan Masukkan Nilai Mata Kuliah\n");
+        printf("[jangkauan nilai adalah 0 - 100, nilai diluar jangkauan akan dijepit]\n");
         for (int j = 0; j < JUMLAH_MATKUL; j++){
             float *a = new float();
             std::cout << "Nilai Mata Kuliah " << makul[j] << ": ";
@@ -146,7 +147,7 @@ int main(){
     std::cin >> yt;
     if (yt == 'y' || yt == 'Y')
     {
-        //sort();
+        SORT:
         printf("Silahkan pilih metode sorting:\n");
         printf("1. Bubble Sort\n");
         printf("2. Selection Sort\n");
@@ -156,18 +157,16 @@ int main(){
         system("cls");
         if (pilihanSorting == 1) bubbleSort();
         else if (pilihanSorting == 2) selectionSort();
-        else if (pilihanSorting == 3) insertionSort();
-        else if (pilihanSorting == 99)
-        {
-            bubbleSort();
-            printf("\n");
-            selectionSort();
-            printf("\n");
-            insertionSort();
-        }
+        else if (pilihanSorting == 3) insertionSort();       
         else
-        {
             printf("Pilihan tidak valid\n");
+        printf("\n");
+        printf("Apakah anda ingin mengganti metode sorting?\n");
+        printf("Jawab: ");
+        std::cin >> yt;
+        if (yt == 'y' || yt == 'Y')
+        {
+            goto SORT;
         }
     }
     delete[] nilai;
