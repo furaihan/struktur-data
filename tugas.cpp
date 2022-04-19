@@ -23,6 +23,17 @@ void tukar(T *a, T *b)
     *a = *b;
     *b = temp;
 }
+std::string MakeLowercase(std::string str)
+{
+    std::string result = str;
+    for (int i = 0; i < str.size(); i++)
+    {
+        if (result[i] > 64 && result[i] < 91)
+            result[i] = result[i] + 32;
+    }
+    return result;
+}
+
 void DisplayRank()
 {
     for (int i = 0; i < n; i++)
@@ -99,6 +110,28 @@ void insertionSort()
     }
     DisplayRank();
 }
+void sequentiualSearch(std::string key)
+{
+    int posisi = - 1;
+    bool ketemu = false;
+    for (int i = 0; i < n; i++)
+    {
+        if (MakeLowercase(nama[i]) == MakeLowercase(key))
+        {
+            posisi = i;
+            ketemu = true;
+            break;
+        }
+    }
+    if (ketemu)
+    {
+        printf("Mahasiswa dengan nama %s menempati rangking %d", nama[posisi], posisi + 1);
+    }
+    else
+    {
+        printf("Maaf, mahasiswa dengan nama %s tidak ditemukan", key);
+    }
+}
 std::string makul[8] = {
         "Struktur Data", "Komunikasi Data", "Pemrograman", 
         "Sistem Operasi", "Hardware/Software", "Komputer Grafis", "Bahasa Inggris II",
@@ -168,6 +201,16 @@ int main(){
         {
             goto SORT;
         }
+    }
+    printf("Apakah anda ingin mencari Mahasiswa? [Y/N]: ");
+    std::cin >> yt;
+    if (yt == 'y' || yt == 'Y')
+    {
+        printf("Silahkan masukkan nama mahasiswa yang ingin dicari: ");
+        std::string kataPencarian = "";
+        std::cin.ignore();
+        std::getline(std::cin, kataPencarian);
+        sequentiualSearch(kataPencarian);
     }
     delete[] nilai;
     delete[] nama;
