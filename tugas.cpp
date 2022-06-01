@@ -1,5 +1,12 @@
 #include "iostream"
-const int JUMLAH_MATKUL = 8;
+const int JUMLAH_MATKUL = 2;
+struct Mahasiswa
+{
+    std::string name;
+    std::string mhsId;
+    float nilaiIpk;
+};
+Mahasiswa *mhs;
 int n;
 float (*nilai)[JUMLAH_MATKUL];
 std::string *nama;
@@ -38,9 +45,9 @@ void DisplayRank()
 {
     for (int i = 0; i < n; i++)
     {
-        std::cout << i + 1 << ". " << nama[i];
-        std::cout <<" (" << nim[i] << ")";
-        std::cout <<  " ==> IPK: " << ipk[i];
+        std::cout << i + 1 << ". " << (mhs + i)->name;
+        std::cout <<" (" << (mhs + i)->mhsId << ")";
+        std::cout <<  " ==> IPK: " << (mhs + i)->nilaiIpk;
         std::cout << std::endl;
     }
 }
@@ -63,6 +70,7 @@ void selectionSort()
             tukar(&nama[i], &nama[min]);
             tukar(&nim[i], &nim[min]);
             tukar(&ipk[i], &ipk[min]);
+            tukar(&mhs[i], &mhs[min]);
         }
     } 
     DisplayRank();
@@ -80,6 +88,7 @@ void bubbleSort()
                 tukar(&ipk[j], &ipk[j+1]);
                 tukar(&nama[j], &nama[j+1]);
                 tukar(&nim[j], &nim[j+1]);
+                tukar(&mhs[i], &mhs[j+1]);
             }
         }
     }
@@ -90,23 +99,27 @@ void insertionSort()
     int i, j;
     float key;
     std::string nimkey, namakey;
+    Mahasiswa mhsKey;
     printf("Insertion Sorting: \n");
     for (i = 1; i < n; i++)
     {
         key = ipk[i];
         nimkey = nim[i];
         namakey = nama[i];
+        mhsKey = mhs[i];
         j = i - 1;
         while (j >= 0 && ipk[j] < key)
         {
             ipk[j + 1] = ipk[j];
             nama[j + 1] = nama[j];
             nim[j + 1] = nim[j];
+            mhs[j + 1] = mhs[j];
             j = j - 1;
         }
         ipk[j + 1] = key;
         nim[j + 1] = nimkey;
         nama[j + 1] = namakey;
+        mhs[j + 1] = mhsKey;
     }
     DisplayRank();
 }
@@ -144,14 +157,21 @@ void inputData(){
     nama = new std::string[n];
     nim = new std::string [n];
     ipk = new float(n);
+    mhs = new Mahasiswa[n];
     printf("Program Data Mahasiswa\n");
     for (int i = 0; i < n; i++){
         printf("Silahkan Masukkan Data Mahasiswa %d\n", i + 1);
         printf("Nama: ");
         std::cin.ignore();
-        std::getline(std::cin, nama[i]);
+        std::string namasem;
+        std::getline(std::cin, namasem);
+        nama[i] = namasem;
+        (mhs + i)->name = namasem;
         printf("NIM: ");
-        std::getline(std::cin, nim[i]);
+        std::string nimsem;
+        std::getline(std::cin, nimsem);
+        nim[i] = nimsem;
+        (mhs + i)->mhsId = nimsem;
         printf("Silahkan Masukkan Nilai Mata Kuliah\n");
         printf("[jangkauan nilai adalah 0 - 100, nilai diluar jangkauan akan dijepit]\n");
         for (int j = 0; j < JUMLAH_MATKUL; j++){
@@ -160,6 +180,7 @@ void inputData(){
             std::cin >> *a;
             float b = clamp<float>(*a, 0, 100);
             nilai[i][j] = b;
+            (mhs + i)->nilaiIpk = b;
             delete a;
         }
         ipk[i] = average(nilai[i], JUMLAH_MATKUL);
@@ -172,9 +193,9 @@ int main(){
     system("cls");
     for (int i = 0; i < n; i++){
         printf("=== MAHASISWA %d ===\n", i + 1);
-        std::cout << "Nama: " << nama[i] << std::endl;
-        std::cout << "Nim: " << nim[i] << std::endl;
-        std::cout << "IPK: " << ipk[i] << std::endl;
+        std::cout << "Nama: " << (mhs + i)->name << std::endl;
+        std::cout << "Nim: " << (mhs + i)->mhsId << std::endl;
+        std::cout << "IPK: " << (mhs + i)->nilaiIpk << std::endl;
     }
     printf("Apakah anda ingin melihat rank mahasiswa? [Y/N]: ");
     std::cin >> yt;
