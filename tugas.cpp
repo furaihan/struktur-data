@@ -23,6 +23,7 @@ T clamp(T val, T min, T max){
     else if (val < min) return min;
     return val;
 }
+//swap memory refrence value from a to b and vice versa
 template<typename T>
 void tukar(T *a, T *b)
 {
@@ -129,7 +130,7 @@ void sequentiualSearch(std::string key)
     bool ketemu = false;
     for (int i = 0; i < n; i++)
     {
-        if (MakeLowercase(nama[i]) == MakeLowercase(key))
+        if (MakeLowercase((mhs + i)->name) == MakeLowercase(key))
         {
             posisi = i;
             ketemu = true;
@@ -138,7 +139,7 @@ void sequentiualSearch(std::string key)
     }
     if (ketemu)
     {
-        printf("Mahasiswa dengan nama %s menempati rangking %d", nama[posisi], posisi + 1);
+        printf("Mahasiswa dengan nama %s menempati rangking %d", (mhs + posisi)->name, posisi + 1);
     }
     else
     {
@@ -237,4 +238,5 @@ int main(){
     delete[] nama;
     delete[] nim;
     delete[] ipk;
+    delete[] mhs;
 }
