@@ -159,6 +159,7 @@ void inputData(){
     nim = new std::string [n];
     ipk = new float(n);
     mhs = new Mahasiswa[n];
+    atas = n;
     printf("Program Data Mahasiswa\n");
     for (int i = 0; i < n; i++){
         printf("Silahkan Masukkan Data Mahasiswa %d\n", i + 1);
@@ -185,6 +186,40 @@ void inputData(){
             delete a;
         }
         ipk[i] = average(nilai[i], JUMLAH_MATKUL);
+    }
+}
+int atas;
+void stackMenu()
+{
+    int sp = 0;
+    while (true)
+    {
+        switch (sp)
+        {
+            case 0:
+                printf("Menu Stack\n1.Tampil\n2.Hapus\n3.Clear\n99.Keluar");
+                std::cin >> sp;
+                break;
+            case 1:
+                if (atas == -1)
+                {
+                    printf("Data Kosong!!!!!!");
+                    system("pause");
+                    break;
+                }
+                for (int i = 0; i < atas; i++)
+                {
+                    printf("%s, ", (mhs + i)->name);
+                }
+                system("pause");
+                sp = 0;
+                break;
+            case 2:
+                if (atas == -1) atas--;
+                system("pause");
+                sp = 1;
+                break;
+        }
     }
 }
 char yt;
@@ -233,6 +268,12 @@ int main(){
         std::cin.ignore();
         std::getline(std::cin, kataPencarian);
         sequentiualSearch(kataPencarian);
+    }
+    printf("Apakah ingin membuka menu stack? [Y/N]");
+    std::cin >> yt;
+    if (yt == 'y' || yt == 'Y')
+    {
+        
     }
     delete[] nilai;
     delete[] nama;
