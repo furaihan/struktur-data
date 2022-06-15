@@ -1,5 +1,7 @@
 #include "iostream"
-const int JUMLAH_MATKUL = 2;
+#include "conio.h"
+
+const int JUMLAH_MATKUL = 8;
 struct Mahasiswa
 {
     std::string name;
@@ -7,7 +9,7 @@ struct Mahasiswa
     float nilaiIpk;
 };
 Mahasiswa *mhs;
-int n;
+int n, atas;
 float (*nilai)[JUMLAH_MATKUL];
 std::string *nama;
 std::string *nim;
@@ -188,7 +190,7 @@ void inputData(){
         ipk[i] = average(nilai[i], JUMLAH_MATKUL);
     }
 }
-int atas;
+bool done = false;
 void stackMenu()
 {
     int sp = 0;
@@ -198,6 +200,7 @@ void stackMenu()
         {
             case 0:
                 printf("Menu Stack\n1.Tampil\n2.Hapus\n3.Clear\n99.Keluar");
+                printf("\nInput: ");
                 std::cin >> sp;
                 break;
             case 1:
@@ -209,17 +212,27 @@ void stackMenu()
                 }
                 for (int i = 0; i < atas; i++)
                 {
-                    printf("%s, ", (mhs + i)->name);
+                    printf("%s\n", (mhs + i)->name);
                 }
-                system("pause");
+                std::cin.ignore();
+                std::cin.get();
                 sp = 0;
                 break;
             case 2:
-                if (atas == -1) atas--;
+                if (atas != -1) atas--;
                 system("pause");
                 sp = 1;
                 break;
+            case 3:
+                if (atas != -1) atas = -1;
+                system("pause");
+                sp = 1;
+                break;
+            case 99:
+                done = true;
+                break;
         }
+        if (done) break;
     }
 }
 char yt;
@@ -273,7 +286,7 @@ int main(){
     std::cin >> yt;
     if (yt == 'y' || yt == 'Y')
     {
-        
+        stackMenu();
     }
     delete[] nilai;
     delete[] nama;
