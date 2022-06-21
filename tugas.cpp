@@ -1,7 +1,7 @@
 #include "iostream"
 #include "conio.h"
 
-const int JUMLAH_MATKUL = 8;
+const int JUMLAH_MATKUL = 2;
 struct Mahasiswa
 {
     std::string name;
@@ -199,6 +199,7 @@ void stackMenu()
         switch (sp)
         {
             case 0:
+                system("cls");
                 printf("Menu Stack\n1.Tampil\n2.Hapus\n3.Clear\n99.Keluar");
                 printf("\nInput: ");
                 std::cin >> sp;
@@ -206,27 +207,36 @@ void stackMenu()
             case 1:
                 if (atas == -1)
                 {
-                    printf("Data Kosong!!!!!!");
+                    printf("Data Kosong!!!!!!\n");
                     system("pause");
+                    sp = 0;
                     break;
                 }
+                printf("%d atas\n", atas);
                 for (int i = 0; i < atas; i++)
                 {
-                    printf("%s\n", (mhs + i)->name);
+                    std::cout << (mhs + i)->name << std::endl;
                 }
-                std::cin.ignore();
-                std::cin.get();
+                system("pause");
                 sp = 0;
                 break;
             case 2:
-                if (atas != -1) atas--;
+                if (atas != -1) 
+                {
+                    atas--;
+                    std::cout << (mhs + atas)->name << " dihapus\n";
+                }
                 system("pause");
-                sp = 1;
+                sp = 0;
                 break;
             case 3:
-                if (atas != -1) atas = -1;
+                if (atas != -1) 
+                {
+                    atas = -1;
+                    printf("Tumpukan dibersihkan\n");
+                }
                 system("pause");
-                sp = 1;
+                sp = 0;
                 break;
             case 99:
                 done = true;
