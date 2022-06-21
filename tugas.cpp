@@ -8,12 +8,109 @@ struct Mahasiswa
     std::string mhsId;
     float nilaiIpk;
 };
+
 Mahasiswa *mhs;
 int n, atas;
 float (*nilai)[JUMLAH_MATKUL];
 std::string *nama;
 std::string *nim;
 float *ipk;
+char yt;
+int pilihanSorting;
+
+#pragma region linked-list
+struct Node
+{
+    Mahasiswa data;
+    Node *next;
+};
+Node *headNode = NULL;
+Node *currentNode = NULL;
+void insertDataToList(Mahasiswa data);
+void insertListMiddle(Mahasiswa data, int elementAt);
+bool isListEmpty();
+void deleteListFront();
+void deleteListEnd();
+void deleteListIndex();
+void clearList();
+void printAllNode();
+int listSize();
+#pragma endregion
+
+#pragma region methodDeclaration
+float average(float *arr, unsigned int size);
+template<typename T>
+T clamp(T val, T min, T max);
+template<typename T>
+void tukar(T *a, T *b);
+std::string MakeLowercase(std::string str);
+void DisplayRank();
+void selectionSort();
+void bubbleSort();
+void insertionSort();
+void sequentiualSearch(std::string key);
+void inputData();
+void stackMenu();
+#pragma endregion
+
+int main(){
+    inputData();
+    system("cls");
+    for (int i = 0; i < n; i++){
+        printf("=== MAHASISWA %d ===\n", i + 1);
+        std::cout << "Nama: " << (mhs + i)->name << std::endl;
+        std::cout << "Nim: " << (mhs + i)->mhsId << std::endl;
+        std::cout << "IPK: " << (mhs + i)->nilaiIpk << std::endl;
+    }
+    printf("Apakah anda ingin melihat rank mahasiswa? [Y/N]: ");
+    std::cin >> yt;
+    if (yt == 'y' || yt == 'Y')
+    {
+        SORT:
+        printf("Silahkan pilih metode sorting:\n");
+        printf("1. Bubble Sort\n");
+        printf("2. Selection Sort\n");
+        printf("3. Insertion Sort\n");
+        printf("Jawab: ");
+        std::cin >> pilihanSorting;
+        system("cls");
+        if (pilihanSorting == 1) bubbleSort();
+        else if (pilihanSorting == 2) selectionSort();
+        else if (pilihanSorting == 3) insertionSort();       
+        else
+            printf("Pilihan tidak valid\n");
+        printf("\n");
+        printf("Apakah anda ingin mengganti metode sorting?\n");
+        printf("Jawab: ");
+        std::cin >> yt;
+        if (yt == 'y' || yt == 'Y')
+        {
+            goto SORT;
+        }
+    }
+    printf("Apakah anda ingin mencari Mahasiswa? [Y/N]: ");
+    std::cin >> yt;
+    if (yt == 'y' || yt == 'Y')
+    {
+        printf("Silahkan masukkan nama mahasiswa yang ingin dicari: ");
+        std::string kataPencarian = "";
+        std::cin.ignore();
+        std::getline(std::cin, kataPencarian);
+        sequentiualSearch(kataPencarian);
+    }
+    printf("Apakah ingin membuka menu stack? [Y/N]");
+    std::cin >> yt;
+    if (yt == 'y' || yt == 'Y')
+    {
+        stackMenu();
+    }
+    delete[] nilai;
+    delete[] nama;
+    delete[] nim;
+    delete[] ipk;
+    delete[] mhs;
+}
+
 float average(float *arr, unsigned int size){
     float total = 0;
     for (int i = 0; i < size; i++)  total += arr[i];
@@ -245,62 +342,32 @@ void stackMenu()
         if (done) break;
     }
 }
-char yt;
-int pilihanSorting;
-int main(){
-    inputData();
-    system("cls");
-    for (int i = 0; i < n; i++){
-        printf("=== MAHASISWA %d ===\n", i + 1);
-        std::cout << "Nama: " << (mhs + i)->name << std::endl;
-        std::cout << "Nim: " << (mhs + i)->mhsId << std::endl;
-        std::cout << "IPK: " << (mhs + i)->nilaiIpk << std::endl;
-    }
-    printf("Apakah anda ingin melihat rank mahasiswa? [Y/N]: ");
-    std::cin >> yt;
-    if (yt == 'y' || yt == 'Y')
-    {
-        SORT:
-        printf("Silahkan pilih metode sorting:\n");
-        printf("1. Bubble Sort\n");
-        printf("2. Selection Sort\n");
-        printf("3. Insertion Sort\n");
-        printf("Jawab: ");
-        std::cin >> pilihanSorting;
-        system("cls");
-        if (pilihanSorting == 1) bubbleSort();
-        else if (pilihanSorting == 2) selectionSort();
-        else if (pilihanSorting == 3) insertionSort();       
-        else
-            printf("Pilihan tidak valid\n");
-        printf("\n");
-        printf("Apakah anda ingin mengganti metode sorting?\n");
-        printf("Jawab: ");
-        std::cin >> yt;
-        if (yt == 'y' || yt == 'Y')
-        {
-            goto SORT;
-        }
-    }
-    printf("Apakah anda ingin mencari Mahasiswa? [Y/N]: ");
-    std::cin >> yt;
-    if (yt == 'y' || yt == 'Y')
-    {
-        printf("Silahkan masukkan nama mahasiswa yang ingin dicari: ");
-        std::string kataPencarian = "";
-        std::cin.ignore();
-        std::getline(std::cin, kataPencarian);
-        sequentiualSearch(kataPencarian);
-    }
-    printf("Apakah ingin membuka menu stack? [Y/N]");
-    std::cin >> yt;
-    if (yt == 'y' || yt == 'Y')
-    {
-        stackMenu();
-    }
-    delete[] nilai;
-    delete[] nama;
-    delete[] nim;
-    delete[] ipk;
-    delete[] mhs;
+#pragma region linkedListEncapsulation
+bool isListEmpty()
+{
+    return headNode = NULL;
 }
+void insertDataToList(Mahasiswa data)
+{
+    Node *newNode = new Node;
+    newNode->data = data;
+    if (isListEmpty())
+    {
+        headNode = newNode;
+    }
+    else 
+    {
+        currentNode->next = newNode;
+    }
+    currentNode = newNode;
+    currentNode.next = NULL;
+    printf("Data berhasil ditambahkan");
+}
+void deleteListFront()
+{
+    if (!isListEmpty())
+    {
+        
+    }
+}
+#pragma endregion
