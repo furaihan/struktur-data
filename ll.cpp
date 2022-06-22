@@ -1,36 +1,36 @@
 #include "iostream"
 #include "myLinkedList.h"
-using namespace std;
-
+#include "windows.h"
 int main()
 {    
     int pilihanMenu;
     int data; 
     MyLinkedList<int> ll;
+    Sleep(3000);
     do 
     {
-        cout << ">>> PILIHAN MENU SINGLY LINKED LIST <<<" << endl << endl;
-        cout << "1. Menambahkan Node" << endl;
-        cout << "2. Menghapus Node dari Depan" << endl;
-        cout << "3. Menghapus Node dari Belakang" << endl;
-        cout << "4. Mengosongkan Node" << endl;
-        cout << "5. Menampilkan Node" << endl;
-        cout << "6. Selesai" << endl << endl;
+        std::cout << ">>> PILIHAN MENU SINGLY LINKED LIST <<<" << std::endl << std::endl;
+        std::cout << "1. Menambahkan Node" << std::endl;
+        std::cout << "2. Menghapus Node dari Depan" << std::endl;
+        std::cout << "3. Menghapus Node dari Belakang" << std::endl;
+        std::cout << "4. Mengosongkan Node" << std::endl;
+        std::cout << "5. Menampilkan Node" << std::endl;
+        std::cout << "6. Selesai" << std::endl << std::endl;
         
-        cout << "Masukkan pilihan Anda : "; cin >> pilihanMenu;
-        cout << endl;
+        std::cout << "Masukkan pilihan Anda : "; std::cin >> pilihanMenu;
+        std::cout << std::endl;
         
         switch (pilihanMenu)
         {
             case 1: // menambah node
-                cout << "Masukkan data : "; cin >> data;
+                std::cout << "Masukkan data : "; std::cin >> data;
                 ll.AddLast(data);
                 break;
                 
             case 2: // menghapus node dari depan
                 if (ll.Empty())
                 {
-                    cout << "List masih kosong !!!" << endl << endl;
+                    std::cout << "List masih kosong !!!" << std::endl << std::endl;
                 }
                 else
                 {
@@ -41,7 +41,7 @@ int main()
             case 3: // menghapus node dari belakang
                 if (ll.Empty())
                 {
-                    cout << "List masih kosong !!!" << endl << endl;
+                    std::cout << "List masih kosong !!!" << std::endl << std::endl;
                 }
                 else
                 {
@@ -52,7 +52,7 @@ int main()
             case 4: // mengosongkan node
                 if (ll.Empty())
                 {
-                    cout << "List masih kosong !!!" << endl << endl;
+                    std::cout << "List masih kosong !!!" << std::endl << std::endl;
                 }
                 else
                 {
@@ -63,7 +63,7 @@ int main()
             case 5: // menampilkan node
                 if (ll.Empty())
                 {
-                    cout << "List masih kosong !!!" << endl << endl;
+                    std::cout << "List masih kosong !!!" << std::endl << std::endl;
                 }
                 else
                 {
@@ -75,13 +75,13 @@ int main()
                  break;
             
             default:
-                cout << "Menu yang Anda pilih tidak terdaftar" << endl << endl;
+                std::cout << "Menu yang Anda pilih tidak terdaftar" << std::endl << std::endl;
                 break;
         }
         
     } while (pilihanMenu != 6);
         
-    cout << endl;    
+    std::cout << std::endl;    
                            
     system("pause");
     return 0;

@@ -30,6 +30,7 @@ template <class T> class MyLinkedList
     }
     bool Contains(T item)
     {
+        Node<T> *bantu = ndas;
         return false;
     }
     void AddLast(T item)
@@ -47,13 +48,39 @@ template <class T> class MyLinkedList
         buntut = newNode;
         buntut->next = NULL;
     }
-    void AddFirst()
+    void AddFirst(T item)
     {
-
+        Node<T> *newNode = new Node<T>;
+        newNode->data = item;
+        if (Empty())
+        {
+            newNode->next = NULL;
+            ndas = newNode;
+            buntut = newNode;
+            return;
+        }
+        newNode->next = ndas;
+        ndas = newNode;
     }
-    void Insert(T item, int index)
+    //insert a new node to nth position
+    void Insert(T item, int n)
     {
-        //TODO
+        Node<T> *newNode = new Node<T>;
+        newNode->data = item;
+        newNode->next = NULL;
+        if (n == 1)
+        {
+            newNode->next = ndas;
+            ndas = newNode;
+            return;
+        } 
+        Node<T> *temp2 = ndas;
+        for (int i = 0; i < n - 2; i++)
+        {
+            temp2 = temp2->next;
+        }
+        newNode->next = temp2->next;
+        temp2->next = newNode;
     }
     void RemoveFirst()
     {
