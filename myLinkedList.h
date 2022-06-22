@@ -32,7 +32,7 @@ template <class T> class MyLinkedList
     {
         return false;
     }
-    void Add(T item)
+    void AddLast(T item)
     {
         Node<T> *newNode = new Node<T>;
         newNode->data = item;
@@ -47,7 +47,11 @@ template <class T> class MyLinkedList
         buntut = newNode;
         buntut->next = NULL;
     }
-    void Insert(T item, int elementAt)
+    void AddFirst()
+    {
+
+    }
+    void Insert(T item, int index)
     {
         //TODO
     }
@@ -79,13 +83,23 @@ template <class T> class MyLinkedList
         buntut->next = NULL;
         delete del;
     }
-    void RemoveAt(int elementAt)
+    void RemoveAt(int index)
     {
 
     }
     void Clear()
     {
-
+        Node<T> *bantu, * hapus;
+        bantu = ndas;
+        while (bantu->next != buntut)
+        {
+            hapus = bantu;
+            bantu = bantu->next;
+            delete hapus;
+        }
+        ndas = NULL;
+        buntut = NULL;
+        printf("All nodes are deleted successfully");
     }
     void PrintList()
     {
