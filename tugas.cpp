@@ -360,7 +360,7 @@ void insertDataToList(Mahasiswa data)
         currentNode->next = newNode;
     }
     currentNode = newNode;
-    currentNode.next = NULL;
+    currentNode->next = NULL;
     printf("Data berhasil ditambahkan");
 }
 void deleteListFront()
