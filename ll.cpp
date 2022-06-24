@@ -15,7 +15,8 @@ int main()
         std::cout << "3. Menghapus Node dari Belakang" << std::endl;
         std::cout << "4. Mengosongkan Node" << std::endl;
         std::cout << "5. Menampilkan Node" << std::endl;
-        std::cout << "6. Selesai" << std::endl << std::endl;
+        std::cout << "6. Tambahkan Node Ditengah" << std::endl;
+        std::cout << "99. Selesai" << std::endl << std::endl;
         
         std::cout << "Masukkan pilihan Anda : "; std::cin >> pilihanMenu;
         std::cout << std::endl;

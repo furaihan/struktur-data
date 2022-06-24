@@ -79,8 +79,14 @@ template <class T> class MyLinkedList
         {
             temp2 = temp2->next;
         }
+        bool isLastElement = temp2 == buntut;
         newNode->next = temp2->next;
         temp2->next = newNode;
+        if (isLastElement) 
+        {
+            buntut = newNode;
+            buntut->next = NULL;
+        }
     }
     void RemoveFirst()
     {

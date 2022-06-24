@@ -1,5 +1,5 @@
 #include "iostream"
-#include "conio.h"
+#include "myLinkedList.h"
 
 const int JUMLAH_MATKUL = 2;
 struct Mahasiswa
@@ -12,30 +12,8 @@ struct Mahasiswa
 Mahasiswa *mhs;
 int n, atas;
 float (*nilai)[JUMLAH_MATKUL];
-std::string *nama;
-std::string *nim;
-float *ipk;
 char yt;
 int pilihanSorting;
-
-#pragma region linked-list
-struct Node
-{
-    Mahasiswa data;
-    Node *next;
-};
-Node *headNode = NULL;
-Node *currentNode = NULL;
-void insertDataToList(Mahasiswa data);
-void insertListMiddle(Mahasiswa data, int elementAt);
-bool isListEmpty();
-void deleteListFront();
-void deleteListEnd();
-void deleteListIndex();
-void clearList();
-void printAllNode();
-int listSize();
-#pragma endregion
 
 #pragma region methodDeclaration
 float average(float *arr, unsigned int size);
@@ -98,16 +76,7 @@ int main(){
         std::getline(std::cin, kataPencarian);
         sequentiualSearch(kataPencarian);
     }
-    printf("Apakah ingin membuka menu stack? [Y/N]");
-    std::cin >> yt;
-    if (yt == 'y' || yt == 'Y')
-    {
-        stackMenu();
-    }
     delete[] nilai;
-    delete[] nama;
-    delete[] nim;
-    delete[] ipk;
     delete[] mhs;
 }
 
@@ -160,16 +129,13 @@ void selectionSort()
         int min = i;
         for (int j = i+1; j < n; j++)
         {
-            if (ipk[j] > ipk[min])
+            if (mhs[j].nilaiIpk > mhs[min].nilaiIpk)
             {
                 min = j;
             }
         }
-        if (ipk[i] != ipk[min])
+        if (mhs[i].nilaiIpk != mhs[min].nilaiIpk)
         {
-            tukar(&nama[i], &nama[min]);
-            tukar(&nim[i], &nim[min]);
-            tukar(&ipk[i], &ipk[min]);
             tukar(&mhs[i], &mhs[min]);
         }
     } 
@@ -183,11 +149,8 @@ void bubbleSort()
     {
         for (j = 0; j < n-i-1; j++)
         {
-            if (ipk[j] < ipk[j+1])
+            if (mhs[j].nilaiIpk < mhs[j+1].nilaiIpk)
             {
-                tukar(&ipk[j], &ipk[j+1]);
-                tukar(&nama[j], &nama[j+1]);
-                tukar(&nim[j], &nim[j+1]);
                 tukar(&mhs[i], &mhs[j+1]);
             }
         }
@@ -203,22 +166,13 @@ void insertionSort()
     printf("Insertion Sorting: \n");
     for (i = 1; i < n; i++)
     {
-        key = ipk[i];
-        nimkey = nim[i];
-        namakey = nama[i];
         mhsKey = mhs[i];
         j = i - 1;
-        while (j >= 0 && ipk[j] < key)
+        while (j >= 0 && mhs[j].nilaiIpk < mhsKey.nilaiIpk)
         {
-            ipk[j + 1] = ipk[j];
-            nama[j + 1] = nama[j];
-            nim[j + 1] = nim[j];
             mhs[j + 1] = mhs[j];
             j = j - 1;
         }
-        ipk[j + 1] = key;
-        nim[j + 1] = nimkey;
-        nama[j + 1] = namakey;
         mhs[j + 1] = mhsKey;
     }
     DisplayRank();
@@ -254,9 +208,6 @@ void inputData(){
     printf("Masukkan jumlah mahasiswa: ");
     std::cin >> n;
     nilai = new float[n][JUMLAH_MATKUL];
-    nama = new std::string[n];
-    nim = new std::string [n];
-    ipk = new float(n);
     mhs = new Mahasiswa[n];
     atas = n;
     printf("Program Data Mahasiswa\n");
@@ -266,12 +217,10 @@ void inputData(){
         std::cin.ignore();
         std::string namasem;
         std::getline(std::cin, namasem);
-        nama[i] = namasem;
         (mhs + i)->name = namasem;
         printf("NIM: ");
         std::string nimsem;
         std::getline(std::cin, nimsem);
-        nim[i] = nimsem;
         (mhs + i)->mhsId = nimsem;
         printf("Silahkan Masukkan Nilai Mata Kuliah\n");
         printf("[jangkauan nilai adalah 0 - 100, nilai diluar jangkauan akan dijepit]\n");
@@ -281,93 +230,8 @@ void inputData(){
             std::cin >> *a;
             float b = clamp<float>(*a, 0, 100);
             nilai[i][j] = b;
-            (mhs + i)->nilaiIpk = b;
             delete a;
         }
-        ipk[i] = average(nilai[i], JUMLAH_MATKUL);
+        (mhs + i)->nilaiIpk = average(nilai[i], JUMLAH_MATKUL);
     }
 }
-bool done = false;
-void stackMenu()
-{
-    int sp = 0;
-    while (true)
-    {
-        switch (sp)
-        {
-            case 0:
-                system("cls");
-                printf("Menu Stack\n1.Tampil\n2.Hapus\n3.Clear\n99.Keluar");
-                printf("\nInput: ");
-                std::cin >> sp;
-                break;
-            case 1:
-                if (atas == -1)
-                {
-                    printf("Data Kosong!!!!!!\n");
-                    system("pause");
-                    sp = 0;
-                    break;
-                }
-                printf("%d atas\n", atas);
-                for (int i = 0; i < atas; i++)
-                {
-                    std::cout << (mhs + i)->name << std::endl;
-                }
-                system("pause");
-                sp = 0;
-                break;
-            case 2:
-                if (atas != -1) 
-                {
-                    atas--;
-                    std::cout << (mhs + atas)->name << " dihapus\n";
-                }
-                system("pause");
-                sp = 0;
-                break;
-            case 3:
-                if (atas != -1) 
-                {
-                    atas = -1;
-                    printf("Tumpukan dibersihkan\n");
-                }
-                system("pause");
-                sp = 0;
-                break;
-            case 99:
-                done = true;
-                break;
-        }
-        if (done) break;
-    }
-}
-#pragma region linkedListEncapsulation
-bool isListEmpty()
-{
-    return headNode = NULL;
-}
-void insertDataToList(Mahasiswa data)
-{
-    Node *newNode = new Node;
-    newNode->data = data;
-    if (isListEmpty())
-    {
-        headNode = newNode;
-    }
-    else 
-    {
-        currentNode->next = newNode;
-    }
-    currentNode = newNode;
-    currentNode->next = NULL;
-    printf("Data berhasil ditambahkan");
-}
-void deleteListFront()
-{
-    if (!isListEmpty())
-    {
-        
-    }
-}
-#pragma endregion
