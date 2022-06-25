@@ -2,26 +2,26 @@
 #include "node.h"
 template <class T> class MyLinkedList
 {
-    Node<T> *ndas, *buntut;
+    Node<T> *head, *tail;
     public:
     MyLinkedList()
     {
-        ndas = NULL;
-        buntut = NULL;
+        head = NULL;
+        tail = NULL;
     }
     //encapsulation for head element
     Node<T> *First()
     {
-        return ndas;
+        return head;
     }
     //encapsulation for tail element
     Node<T> *Last()
     {
-        return buntut;
+        return tail;
     }
     bool Empty()
     {
-        return ndas == NULL;
+        return head == NULL;
     }
     int Count()
     {
@@ -30,7 +30,7 @@ template <class T> class MyLinkedList
     }
     bool Contains(T item)
     {
-        Node<T> *bantu = ndas;
+        Node<T> *bantu = head;
         return false;
     }
     void AddLast(T item)
@@ -39,14 +39,14 @@ template <class T> class MyLinkedList
         newNode->data = item;
         if (Empty())
         {
-            ndas = newNode;
+            head = newNode;
         }
         else
         {
-            buntut->next = newNode;
+            tail->next = newNode;
         }
-        buntut = newNode;
-        buntut->next = NULL;
+        tail = newNode;
+        tail->next = NULL;
     }
     void AddFirst(T item)
     {
@@ -55,12 +55,12 @@ template <class T> class MyLinkedList
         if (Empty())
         {
             newNode->next = NULL;
-            ndas = newNode;
-            buntut = newNode;
+            head = newNode;
+            tail = newNode;
             return;
         }
-        newNode->next = ndas;
-        ndas = newNode;
+        newNode->next = head;
+        head = newNode;
     }
     //insert a new node to nth position
     void Insert(T item, int n)
@@ -70,22 +70,22 @@ template <class T> class MyLinkedList
         newNode->next = NULL;
         if (n == 1)
         {
-            newNode->next = ndas;
-            ndas = newNode;
+            newNode->next = head;
+            head = newNode;
             return;
         } 
-        Node<T> *temp2 = ndas;
+        Node<T> *temp2 = head;
         for (int i = 0; i < n - 2; i++)
         {
             temp2 = temp2->next;
         }
-        bool isLastElement = temp2 == buntut;
+        bool isLastElement = temp2 == tail;
         newNode->next = temp2->next;
         temp2->next = newNode;
         if (isLastElement) 
         {
-            buntut = newNode;
-            buntut->next = NULL;
+            tail = newNode;
+            tail->next = NULL;
         }
     }
     void RemoveFirst()
@@ -94,49 +94,49 @@ template <class T> class MyLinkedList
         {
             return;
         }
-        Node<T> *firstElem = ndas;
-        ndas = ndas->next;
+        Node<T> *firstElem = head;
+        head = head->next;
         delete firstElem;
     }
     void RemoveLast()
     {
-        if (ndas == buntut)
+        if (head == tail)
         {
-            ndas = NULL;
-            buntut = NULL;
+            head = NULL;
+            tail = NULL;
             return;
         }
-        Node<T> *temp = ndas;
-        Node<T> *del = buntut;
-        while (temp->next != buntut)
+        Node<T> *temp = head;
+        Node<T> *del = tail;
+        while (temp->next != tail)
         {
             temp = temp->next;
         }
-        buntut = temp;
-        buntut->next = NULL;
+        tail = temp;
+        tail->next = NULL;
         delete del;
     }
     void RemoveAt(int index)
     {
-
+        //TODO
     }
     void Clear()
     {
         Node<T> *bantu, * hapus;
-        bantu = ndas;
-        while (bantu->next != buntut)
+        bantu = head;
+        while (bantu->next != tail)
         {
             hapus = bantu;
             bantu = bantu->next;
             delete hapus;
         }
-        ndas = NULL;
-        buntut = NULL;
+        head = NULL;
+        tail = NULL;
         printf("All nodes are deleted successfully");
     }
     void PrintList()
     {
-        Node<T> *bantu = ndas;
+        Node<T> *bantu = head;
         int counter = 1;
         while (bantu != NULL)
         {

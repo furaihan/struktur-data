@@ -1,17 +1,23 @@
 #include "iostream"
 #include "myLinkedList.h"
 
-const int JUMLAH_MATKUL = 2;
+const int JUMLAH_MATKUL = 8;
 struct Mahasiswa
 {
     std::string name;
     std::string mhsId;
+    float nilaiMatkul[JUMLAH_MATKUL];
     float nilaiIpk;
 };
+//Mahasiswa.ToString() return a string representation of Mahasiswa Struct
+std::ostream &operator<<(std::ostream &os, Mahasiswa const &m) { 
+    return os << "Nama: " << m.name << std::endl << "NIM: " << m.mhsId << std::endl << "IPK: " << m.nilaiIpk;
+}
+
+MyLinkedList <Mahasiswa> students;
 
 Mahasiswa *mhs;
-int n, atas;
-float (*nilai)[JUMLAH_MATKUL];
+int n;
 char yt;
 int pilihanSorting;
 
@@ -28,18 +34,22 @@ void bubbleSort();
 void insertionSort();
 void sequentiualSearch(std::string key);
 void inputData();
-void stackMenu();
 #pragma endregion
 
 int main(){
+    Node<Mahasiswa> *head;
     inputData();
+    head = students.First();
     system("cls");
     for (int i = 0; i < n; i++){
         printf("=== MAHASISWA %d ===\n", i + 1);
-        std::cout << "Nama: " << (mhs + i)->name << std::endl;
-        std::cout << "Nim: " << (mhs + i)->mhsId << std::endl;
-        std::cout << "IPK: " << (mhs + i)->nilaiIpk << std::endl;
+        std::cout << "Nama: " << head->data.name << std::endl;
+        std::cout << "Nim: " << head->data.mhsId << std::endl;
+        std::cout << "IPK: " << head->data.nilaiIpk << std::endl;
+        head = head->next;
     }
+    head = students.First();
+    students.PrintList();
     printf("Apakah anda ingin melihat rank mahasiswa? [Y/N]: ");
     std::cin >> yt;
     if (yt == 'y' || yt == 'Y')
@@ -58,7 +68,7 @@ int main(){
         else
             printf("Pilihan tidak valid\n");
         printf("\n");
-        printf("Apakah anda ingin mengganti metode sorting?\n");
+        printf("Apakah anda ingin mengganti metode sorting? [Y/N]\n");
         printf("Jawab: ");
         std::cin >> yt;
         if (yt == 'y' || yt == 'Y')
@@ -76,7 +86,6 @@ int main(){
         std::getline(std::cin, kataPencarian);
         sequentiualSearch(kataPencarian);
     }
-    delete[] nilai;
     delete[] mhs;
 }
 
@@ -192,7 +201,7 @@ void sequentiualSearch(std::string key)
     }
     if (ketemu)
     {
-        printf("Mahasiswa dengan nama %s menempati rangking %d", (mhs + posisi)->name, posisi + 1);
+        std::cout << "Mahasiswa dengan nama " << (mhs + posisi)->name << " menempati rangking " << posisi + 1<< std::endl;
     }
     else
     {
@@ -207,21 +216,22 @@ std::string makul[8] = {
 void inputData(){
     printf("Masukkan jumlah mahasiswa: ");
     std::cin >> n;
-    nilai = new float[n][JUMLAH_MATKUL];
     mhs = new Mahasiswa[n];
-    atas = n;
     printf("Program Data Mahasiswa\n");
     for (int i = 0; i < n; i++){
+        Mahasiswa tempMhs;
         printf("Silahkan Masukkan Data Mahasiswa %d\n", i + 1);
         printf("Nama: ");
         std::cin.ignore();
         std::string namasem;
         std::getline(std::cin, namasem);
         (mhs + i)->name = namasem;
+        tempMhs.name = namasem;
         printf("NIM: ");
         std::string nimsem;
         std::getline(std::cin, nimsem);
         (mhs + i)->mhsId = nimsem;
+        tempMhs.mhsId = nimsem;
         printf("Silahkan Masukkan Nilai Mata Kuliah\n");
         printf("[jangkauan nilai adalah 0 - 100, nilai diluar jangkauan akan dijepit]\n");
         for (int j = 0; j < JUMLAH_MATKUL; j++){
@@ -229,9 +239,12 @@ void inputData(){
             std::cout << "Nilai Mata Kuliah " << makul[j] << ": ";
             std::cin >> *a;
             float b = clamp<float>(*a, 0, 100);
-            nilai[i][j] = b;
+            (mhs + i)->nilaiMatkul[j] = b;
+            tempMhs.nilaiMatkul[j] = b;
             delete a;
         }
-        (mhs + i)->nilaiIpk = average(nilai[i], JUMLAH_MATKUL);
+        (mhs + i)->nilaiIpk = average((mhs + i)->nilaiMatkul, JUMLAH_MATKUL);
+        tempMhs.nilaiIpk = average((mhs + i)->nilaiMatkul, JUMLAH_MATKUL);;
+        students.AddFirst(tempMhs);
     }
 }
